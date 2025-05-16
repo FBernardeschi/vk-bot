@@ -48,7 +48,7 @@ updates.on('message', async (ctx) => {
         });
     }
 
-    if(ctx.peerType === 'chat' && Math.ceil(Math.random() * 7) == 3) {
+    if(ctx.peerType === 'chat' && Math.ceil(Math.random() * 5) == 3) {
         const resultReaction = new SendReaction(ctx, api).sender();
     }
 });
