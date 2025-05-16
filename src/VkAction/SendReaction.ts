@@ -14,7 +14,7 @@ export default class SendReaction
         const result = await this.api.messages.sendReaction({
             peer_id: this.ctx.peerId,
             cmid: this.ctx.conversationMessageId || 0,
-            reaction_id: Math.floor(Math.random() * 15)
+            reaction_id: Math.ceil(Math.random() * 15)
         });
 
         return result;
