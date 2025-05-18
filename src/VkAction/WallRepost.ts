@@ -1,12 +1,12 @@
-import { API, ContextDefaultState, getRandomId } from "vk-io";
+import { API, ContextDefaultState, getRandomId, WallPostContext } from "vk-io";
 
 export default class WallRepost
 {
-    private ctx: ContextDefaultState;
+    private ctx: WallPostContext;
     private api: API;
     private chatId: number;
     
-    constructor(ctx: ContextDefaultState, api: API, chatId: number) {
+    constructor(ctx: WallPostContext, api: API, chatId: number) {
         this.ctx = ctx;
         this.api = api;
         this.chatId = chatId;

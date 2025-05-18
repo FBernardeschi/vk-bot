@@ -11,6 +11,7 @@ if (result.error) {
 
 const TOKEN = process.env.TOKEN || '';
 const OWNER_CHAT = Number(process.env.CHAT) || 0;
+const ADMIN = Number(process.env.ADMIN) || 0;
 
 const api = new API({ token: TOKEN });
 const upload = new Upload({ api: api });
@@ -20,9 +21,7 @@ const updates = new Updates({
     upload: upload
 });
 
-updates.on('message', async (ctx) => {
-    console.log(ctx);
-    
+updates.on('message', async (ctx) => {    
     if(ctx.replyMessage && ctx.text === '/ban' && ctx.peerType === 'chat') {
         console.log(ctx);
 
@@ -31,8 +30,7 @@ updates.on('message', async (ctx) => {
             count: 40
         });
 
-        const user = users.items.find(el => el.member_id === ctx.senderId);
-        if(user && 'is_admin' in user && user.is_admin === true) {
+        if(ctx.senderId === ADMIN) {
             api.messages.removeChatUser({
                 chat_id: ctx.peerId,
                 user_id: ctx.replyMessage.senderId
@@ -49,7 +47,8 @@ updates.on('message', async (ctx) => {
     }
 
     if(ctx.peerType === 'chat' && Math.ceil(Math.random() * 10) == 3) {
-        const resultReaction = new SendReaction(ctx, api).sender();
+        console.log('Click reaction!');
+        new SendReaction(ctx, api).sender();
     }
 });
 
