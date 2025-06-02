@@ -22,17 +22,13 @@ const updates = new Updates({
 });
 
 updates.on('message', async (ctx) => {    
-    if(ctx.replyMessage && ctx.text === '/ban' && ctx.peerType === 'chat') {
-        console.log(ctx);
-
-        const users = await api.messages.getConversationMembers({
-            peer_id: ctx.peerId,
-            count: 40
-        });
+    console.log(ctx);
+    
+    if(ctx.replyMessage && (ctx.text === '!ban' || ctx.text === '!бан') && ctx.peerType === 'chat') {
 
         if(ctx.senderId === ADMIN) {
             api.messages.removeChatUser({
-                chat_id: ctx.peerId,
+                chat_id: ctx.peerId % 2000000000,
                 user_id: ctx.replyMessage.senderId
             });
         } else {
