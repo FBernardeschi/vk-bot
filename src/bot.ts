@@ -1,8 +1,10 @@
 import * as dotenv from "dotenv";
-import { API, Updates, Upload } from "vk-io";
+import { API, Updates, VK, Upload, WallPostContext } from 'vk-io';
 import SendReaction from "./VkAction/SendReaction";
 import WallRepost from "./VkAction/WallRepost";
 import UserVk from "./VkAction/UserType";
+import SendComment from "./VkAction/SendComment";
+import { MESSAGES } from "./messages";
 
 const result = dotenv.config({ path: "./.env" });
 if (result.error) {
@@ -14,14 +16,9 @@ const OWNER_CHAT = Number(process.env.CHAT) || 0;
 const ADMIN = Number(process.env.ADMIN) || 0;
 
 const api = new API({ token: TOKEN });
-const upload = new Upload({ api: api });
+const vk = new VK({ token: TOKEN });
 
-const updates = new Updates({
-    api: api,
-    upload: upload
-});
-
-updates.on('message', async (ctx) => {    
+vk.updates.on('message', async (ctx) => {    
     console.log(ctx);
     
     if(ctx.replyMessage && (ctx.text === '!ban' || ctx.text === '!бан') && ctx.peerType === 'chat') {
@@ -48,12 +45,15 @@ updates.on('message', async (ctx) => {
     }
 });
 
-updates.on('wall_post_new', async (ctx) => {
+vk.updates.on('wall_post_new', async (ctx: WallPostContext) => {
     console.log(ctx);
     if(!ctx.isRepost) {
-        const resultWallRepost = new WallRepost(ctx, api, OWNER_CHAT).sender();        
+        new WallRepost(ctx, api, OWNER_CHAT).sender();
+        const commentSender = new SendComment(ctx, api);
+        commentSender.sender(MESSAGES.CHAT_LINK);  
+        commentSender.sender(MESSAGES.TG_LINK);  
     }
 });
 
 
-updates.start();
+vk.updates.start();
