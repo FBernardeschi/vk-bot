@@ -1,11 +1,12 @@
 {
   "scripts": {
     "build": "tsc --build tsconfig.json",
-    "start": "node dist/bot.js"
+    "start": "node dist/bot.js",
+    "deploy": "npm i && npm install -g typescript && npm run build && npm run start"
   },
   "dependencies": {
     "dotenv": "^16.5.0",
-    "vk-io": "^4.9.1"
+    "vk-io": "^4.10.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.17"

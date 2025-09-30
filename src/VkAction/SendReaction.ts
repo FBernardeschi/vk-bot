@@ -10,11 +10,11 @@ export default class SendReaction
         this.api = api;
     }
 
-    async sender() {
+    async sender(reactionId = Math.ceil(Math.random() * 15)) {
         const result = await this.api.messages.sendReaction({
             peer_id: this.ctx.peerId,
             cmid: this.ctx.conversationMessageId || 0,
-            reaction_id: Math.ceil(Math.random() * 15)
+            reaction_id: reactionId
         });
 
         return result;

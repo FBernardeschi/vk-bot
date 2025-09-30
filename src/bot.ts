@@ -14,6 +14,7 @@ if (result.error) {
 const TOKEN = process.env.TOKEN || '';
 const OWNER_CHAT = Number(process.env.CHAT) || 0;
 const ADMIN = Number(process.env.ADMIN) || 0;
+const SHIT = (process.env.SHIT || '').split(',');
 
 const api = new API({ token: TOKEN });
 const vk = new VK({ token: TOKEN });
@@ -40,14 +41,16 @@ vk.updates.on('message', async (ctx) => {
     }
 
     if(ctx.peerType === 'chat' && Math.ceil(Math.random() * 10) == 3) {
-        console.log('Click reaction!');
         new SendReaction(ctx, api).sender();
+    }
+
+    if(SHIT.includes(ctx.senderId.toString())) {
+        new SendReaction(ctx, api).sender(5);
     }
 });
 
 vk.updates.on('wall_post_new', async (ctx: WallPostContext) => {
-    console.log(ctx);
-    if(!ctx.isRepost) {
+    if(!ctx.isRepost && !ctx.wall.donut?.is_donut) {
         new WallRepost(ctx, api, OWNER_CHAT).sender();
         const commentSender = new SendComment(ctx, api);
         commentSender.sender(MESSAGES.CHAT_LINK);  
