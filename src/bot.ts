@@ -13,8 +13,9 @@ if (result.error) {
 
 const TOKEN = process.env.TOKEN || '';
 const OWNER_CHAT = Number(process.env.CHAT) || 0;
-const ADMIN = Number(process.env.ADMIN) || 0;
+// const ADMIN = Number(process.env.ADMIN) || 0;
 const SHIT = (process.env.SHIT || '').split(',');
+const ADMINS = (process.env.ADMIN || '').split(',');
 
 const api = new API({ token: TOKEN });
 const vk = new VK({ token: TOKEN });
@@ -24,7 +25,7 @@ vk.updates.on('message', async (ctx) => {
     
     if(ctx.replyMessage && (ctx.text === '!ban' || ctx.text === '!бан') && ctx.peerType === 'chat') {
 
-        if(ctx.senderId === ADMIN) {
+        if(ADMINS.includes(ctx.senderId.toString())) {
             api.messages.removeChatUser({
                 chat_id: ctx.peerId % 2000000000,
                 user_id: ctx.replyMessage.senderId
