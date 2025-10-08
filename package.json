@@ -2,7 +2,7 @@
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "start": "node dist/bot.js",
-    "deploy": "npm i && npm install -g typescript && npm run build && npm run start"
+    "deploy": "git pull && npm i && npm run build && npm run start && systemctl restart vk-bot"
   },
   "dependencies": {
     "dotenv": "^16.5.0",
