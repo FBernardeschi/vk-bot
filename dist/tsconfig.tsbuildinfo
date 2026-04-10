@@ -1,0 +1,1 @@
+{"root":["../src/bot.ts","../src/messages.ts","../src/helpers/enumrandom.ts","../src/vkaction/sendcomment.ts","../src/vkaction/sendreaction.ts","../src/vkaction/usertype.ts","../src/vkaction/wallrepost.ts","../src/middleware/contextextensions.ts","../src/types/vk-io.d.ts","../src/utils/random.utils.ts"],"version":"5.9.2"}
