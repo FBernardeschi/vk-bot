@@ -5,6 +5,7 @@ import WallRepost from "./VkAction/WallRepost";
 import UserVk from "./VkAction/UserType";
 import SendComment from "./VkAction/SendComment";
 import { MESSAGES } from "./messages";
+import { RandomUtils } from "./utils/random.utils";
 
 const result = dotenv.config({ path: "./.env" });
 if (result.error) {
@@ -41,7 +42,7 @@ vk.updates.on('message', async (ctx) => {
         });
     }
 
-    if(ctx.peerType === 'chat' && Math.ceil(Math.random() * 10) == 3) {
+    if(ctx.peerType === 'chat' && RandomUtils.rollChance(10)) {
         new SendReaction(ctx, api).sender();
     }
 
