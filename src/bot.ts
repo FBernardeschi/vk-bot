@@ -42,7 +42,7 @@ vk.updates.on('message', async (ctx) => {
         });
     }
 
-    if(ctx.peerType === 'chat' && RandomUtils.rollChance(10)) {
+    if(ctx.peerType === 'chat' && RandomUtils.rollChance(5)) {
         new SendReaction(ctx, api).sender();
     }
 
