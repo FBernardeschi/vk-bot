@@ -11,8 +11,8 @@ export default class SendReaction
     }
 
     async sender(reactionId = Math.ceil(Math.random() * 15)) {
-        if (reactionId == 5) {
-            reactionId = 16;
+        if (reactionId == 14 || reactionId == 31 || reactionId == 37 || reactionId == 28) {
+            reactionId = 1;
         }
         const result = await this.api.messages.sendReaction({
             peer_id: this.ctx.peerId,
