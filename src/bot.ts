@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import { API, Updates, VK, Upload, WallPostContext } from 'vk-io';
+import { API, Updates, VK, Upload, WallPostContext, VideoAttachment } from 'vk-io';
 import SendReaction from "./VkAction/SendReaction";
 import WallRepost from "./VkAction/WallRepost";
 import UserVk from "./VkAction/UserType";
@@ -49,6 +49,22 @@ vk.updates.on('message', async (ctx) => {
     if(SHIT.includes(ctx.senderId.toString())) {
         new SendReaction(ctx, api).sender(5);
     }
+
+    if(
+        ctx.attachments && 
+        Array.isArray(ctx.attachments) && 
+        ctx.attachments.length > 0 &&
+        ctx.attachments[0] instanceof VideoAttachment &&
+        ctx.attachments[0].title?.includes('Клип')
+    ) {
+        await api.messages.delete({
+            delete_for_all: 1,
+            peer_id: ctx.peerId,
+            cmids: ctx.conversationMessageId
+        });
+        console.log('Клип удалён!');
+    }
+
 });
 
 vk.updates.on('wall_post_new', async (ctx: WallPostContext) => {

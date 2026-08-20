@@ -64,6 +64,7 @@ const ADMINS = (process.env.ADMIN || '').split(',');
 const api = new vk_io_1.API({ token: TOKEN });
 const vk = new vk_io_1.VK({ token: TOKEN });
 vk.updates.on('message', (ctx) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     console.log(ctx);
     if (ctx.replyMessage && (ctx.text === '!ban' || ctx.text === '!бан') && ctx.peerType === 'chat') {
         if (ADMINS.includes(ctx.senderId.toString())) {
@@ -81,11 +82,23 @@ vk.updates.on('message', (ctx) => __awaiter(void 0, void 0, void 0, function* ()
             cmids: ctx.replyMessage.conversationMessageId
         });
     }
-    if (ctx.peerType === 'chat' && random_utils_1.RandomUtils.rollChance(10)) {
+    if (ctx.peerType === 'chat' && random_utils_1.RandomUtils.rollChance(5)) {
         new SendReaction_1.default(ctx, api).sender();
     }
     if (SHIT.includes(ctx.senderId.toString())) {
         new SendReaction_1.default(ctx, api).sender(5);
+    }
+    if (ctx.attachments &&
+        Array.isArray(ctx.attachments) &&
+        ctx.attachments.length > 0 &&
+        ctx.attachments[0] instanceof vk_io_1.VideoAttachment &&
+        ((_a = ctx.attachments[0].title) === null || _a === void 0 ? void 0 : _a.includes('Клип'))) {
+        yield api.messages.delete({
+            delete_for_all: 1,
+            peer_id: ctx.peerId,
+            cmids: ctx.conversationMessageId
+        });
+        console.log('Клип удалён!');
     }
 }));
 vk.updates.on('wall_post_new', (ctx) => __awaiter(void 0, void 0, void 0, function* () {
