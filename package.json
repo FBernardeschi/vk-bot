@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "dev": "tsx src/bot.ts",
     "build": "tsc --build tsconfig.json",
     "start": "node dist/bot.js",
     "deploy": "git pull && npm i && npm run build && (npm run start &)"
@@ -9,6 +10,7 @@
     "vk-io": "^4.10.0"
   },
   "devDependencies": {
-    "@types/node": "^22.15.17"
+    "@types/node": "^22.15.17",
+    "tsx": "^4.23.15"
   }
 }

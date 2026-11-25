@@ -13,7 +13,7 @@ export default class WallRepost
     }
 
     async sender() {
-        const smalls = ['&#9889;', '&#127873;', '&#127872;', '&#127917;', '&#9730;', '&#128011;'];
+        const smalls = ['&#9889;', '&#127873;', '&#127872;', '&#127917;', '&#9730;', '&#128011;', '&#128049;', '&#128029;', '&#11088;'];
         const small = smalls[Math.floor((Math.random() * smalls.length))];
         const result = await this.api.messages.send({
             peer_id: this.chatId,
