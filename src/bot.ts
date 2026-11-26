@@ -113,15 +113,7 @@ async function bootstrap() {
                         chat_id: ctx.peerId % 2000000000,
                         user_id: targetId
                     });
-
-                    // 2. Если это ЧС/Блеклист - баним в сообществе (заносим в ЧС группы)
-                    if (['!bl', '!чс'].includes(command)) {
-                        await api.groups.ban({
-                            group_id: GROUP_ID,   // ID сообщества (число)
-                            owner_id: targetId,   // ВАЖНО: именно owner_id! (ID пользователя)
-                            reason: 1             // 1 = Спам
-                        });
-                    }
+                    
                 } catch (error) {
                     console.error(`Ошибка при выполнении команды ${command}:`, error);
                     await ctx.reply('⚠️ Произошла ошибка. Возможно, пользователь уже забанен или вышел из беседы.');
