@@ -1,5 +1,5 @@
-import { API, WallPostContext } from 'vk-io';
-import { WallCreateCommentResponse } from 'vk-io/lib/api/schemas/responses';
+import { API, WallPostContext, Responses } from 'vk-io';
+// import { WallCreateCommentResponse } from 'vk-io';
 
 
 export default class SendComment 
@@ -13,7 +13,7 @@ export default class SendComment
         this.api = api;
     }
 
-    async sender(text: string): Promise<WallCreateCommentResponse>
+    async sender(text: string): Promise<Responses.WallCreateCommentResponse>
     {
         return this.api.wall.createComment({
             owner_id: this.context.wall.ownerId,
