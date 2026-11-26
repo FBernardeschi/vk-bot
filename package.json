@@ -2,7 +2,7 @@
   "scripts": {
     "dev": "tsx src/bot.ts",
     "build": "tsc --build tsconfig.json",
-    "start": "node dist/bot.js",
+    "start": "npm run build && node dist/bot.js",
     "deploy": "git pull && npm i && npm run build && (npm run start &)"
   },
   "dependencies": {
