@@ -29,7 +29,7 @@ if (!TOKEN) {
 }
 
 const api = new API({ token: TOKEN });
-const vk = new VK({ token: TOKEN, pollingGroupId: 210739052 });
+const vk = new VK({ token: TOKEN });
 
 async function getCommunityId(api: API): Promise<string> {
     const groups = await api.groups.getById([]);
