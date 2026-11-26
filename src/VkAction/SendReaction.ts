@@ -10,7 +10,7 @@ export default class SendReaction
         this.api = api;
     }
 
-    async sender(reactionId = Math.ceil(Math.random() * 15)) {
+    async sender(reactionId = Math.ceil(Math.random() * 15)): Promise<void> {
         if (reactionId == 14 || reactionId == 31 || reactionId == 37 || reactionId == 28) {
             reactionId = 1;
         }
@@ -20,7 +20,7 @@ export default class SendReaction
             reaction_id: reactionId
         });
 
-        return result;
+        // return result;
     }
 }
 

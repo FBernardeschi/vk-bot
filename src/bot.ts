@@ -32,14 +32,36 @@ if (!TOKEN) {
 const api = new API({ token: TOKEN });
 const vk = new VK({ token: TOKEN });
 
+
 async function getCommunityId(api: API): Promise<string> {
     const groups = await api.groups.getById([]);
 
-    if (!groups.groups.length) {
+    // Проверяем, что groups существует и не пуст
+    if (!groups || !groups.groups || groups.groups.length === 0) {
         throw new Error('Не удалось получить ID сообщества');
     }
 
-    return groups.groups[0].id.toString();
+    // После проверки TypeScript понимает, что groups.groups точно есть
+    const group =  groups.groups[0];
+    if (group) {
+        return group.id.toString();
+    }
+
+    return '';
+}
+
+async function deleteMessageForAll(
+    api: API,
+    peerId: number,
+    cmids: number | undefined
+): Promise<void> {
+    if (cmids === undefined) return;
+
+    await api.messages.delete({
+        delete_for_all: 1,
+        peer_id: peerId,
+        cmids
+    });
 }
 
 async function bootstrap() {
@@ -108,13 +130,13 @@ async function bootstrap() {
                 await ctx.reply('❌ Недостаточно полномочий! ❌');
             }
 
-            // 3. Удаляем сообщение с командой (вынес из try, чтобы удалялось всегда, даже если бан не прошел)
+            // 3. Удаляем сообщение с командой
             try {
-                await api.messages.delete({
-                    delete_for_all: 1,
-                    peer_id: ctx.peerId,
-                    cmids: ctx.replyMessage.conversationMessageId
-                });
+                await deleteMessageForAll(
+                    api,
+                    ctx.peerId,
+                    ctx.replyMessage?.conversationMessageId
+                );
             } catch (error) {
                 console.error('Не удалось удалить сообщение с командой:', error);
             }
@@ -138,11 +160,16 @@ async function bootstrap() {
             ctx.attachments[0] instanceof VideoAttachment &&
             ctx.attachments[0].title?.includes('Клип')
         ) {
-            await api.messages.delete({
-                delete_for_all: 1,
-                peer_id: ctx.peerId,
-                cmids: ctx.conversationMessageId
-            });
+            // 3. Удаляем сообщение с клипом
+            try {
+                await deleteMessageForAll(
+                    api,
+                    ctx.peerId,
+                    ctx.replyMessage?.conversationMessageId
+                );
+            } catch (error) {
+                console.error('Не удалось удалить сообщение с командой:', error);
+            }
 
             console.log('Клип удалён!');
         }

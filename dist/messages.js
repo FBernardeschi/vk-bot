@@ -7,3 +7,4 @@ exports.MESSAGES = {
     TG_LINK: `Наш телеграм:
     https://t.me/instyoucity`
 };
+//# sourceMappingURL=messages.js.map

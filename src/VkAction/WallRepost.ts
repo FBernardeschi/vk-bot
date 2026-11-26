@@ -12,16 +12,14 @@ export default class WallRepost
         this.chatId = chatId;
     }
 
-    async sender() {
+    async sender(): Promise<void> {
         const smalls = ['&#9889;', '&#127873;', '&#127872;', '&#127917;', '&#9730;', '&#128011;', '&#128049;', '&#128029;', '&#11088;'];
         const small = smalls[Math.floor((Math.random() * smalls.length))];
-        const result = await this.api.messages.send({
+        await this.api.messages.send({
             peer_id: this.chatId,
             random_id: getRandomId(),
             message: small + ' В сообществе новая запись! ' + small,
             attachment: this.ctx.wall
         });
-
-        return result;
     }
 }
