@@ -24,6 +24,7 @@ const OWNER_CHAT = Number(process.env.CHAT) || 0;
 const SHIT = (process.env.SHIT || '').split(',');
 const ADMINS = (process.env.ADMIN || '').split(',');
 const ENABLE_COMMENT_SENDER = process.env.ENABLE_COMMENT_SENDER === '1';
+const ENABLE_RANDOM_REACTION = process.env.ENABLE_RANDOM_REACTION === '1';
 
 if (!TOKEN) {
     throw new Error('VK_TOKEN не указан в .env');
@@ -113,7 +114,7 @@ async function bootstrap() {
                         chat_id: ctx.peerId % 2000000000,
                         user_id: targetId
                     });
-                    
+
                 } catch (error) {
                     console.error(`Ошибка при выполнении команды ${command}:`, error);
                     await ctx.reply('⚠️ Произошла ошибка. Возможно, пользователь уже забанен или вышел из беседы.');
@@ -135,6 +136,7 @@ async function bootstrap() {
         }
 
         if (
+            ENABLE_RANDOM_REACTION &&
             ctx.peerType === 'chat' &&
             RandomUtils.rollChance(5)
         ) {
